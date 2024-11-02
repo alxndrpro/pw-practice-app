@@ -1,9 +1,9 @@
-import {test, expect} from '@playwright/test'
-import {createLogErrorHandler} from "@angular/compiler-cli/ngcc/src/execution/tasks/completion";
+import {expect} from '@playwright/test'
+import {test} from '../test-options'
 
-test('Drag and drop with iFrame', async ({page}) => {
+test('Drag and drop with iFrame', async ({page, globalsQaURL}) => {
 
-  await page.goto('https://www.globalsqa.com/demo-site/draganddrop')
+  await page.goto(globalsQaURL)
 
   const frame = page.frameLocator('[rel-title="Photo manager"] iframe')
 

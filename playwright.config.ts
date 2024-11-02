@@ -1,4 +1,5 @@
-import { defineConfig, devices } from '@playwright/test';
+import {defineConfig, devices} from '@playwright/test';
+import type {TestOptions} from "./test-options";
 
 /**
  * Read environment variables from file.
@@ -6,11 +7,11 @@ import { defineConfig, devices } from '@playwright/test';
  */
 // import dotenv from 'dotenv';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
-
+require('dotenv').config();
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-export default defineConfig({
+export default defineConfig<TestOptions>({
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -25,7 +26,11 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'http://localhost:4200/',
+    globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop',
+    // baseURL: process.env.DEV === 'tst' ? 'http://localhost:4200/'
+    //   : process.env.DEV === 'tst2' ? 'http://localhost:4201/'
+    //     : 'http://localhost:4202/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -34,9 +39,27 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: 'tst',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:4200/'
+      }
+
     }
+    // ,
+    // {
+    //   name: 'tst2',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     baseURL: 'http://localhost:4200/'
+    //   }
+
+    // }
+    // ,
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // }
     // ,
     //
     // {

@@ -5,7 +5,11 @@ require('dotenv').config();
 
 export default defineConfig<TestOptions>({
   retries: 1,
-  reporter: 'html',
+  reporter: [
+    ['list'],
+    ['allure-playwright']
+  ],
+
   use: {
     globalsQaURL: 'https://www.globalsqa.com/demo-site/draganddrop',
     baseURL: process.env.DEV === 'tst' ? 'http://localhost:4200/'
@@ -38,6 +42,13 @@ export default defineConfig<TestOptions>({
       use: {
         browserName: "firefox"
       },
+    },
+    {
+      name: 'mobile',
+      testMatch: 'testMobile.spec.ts',
+      use: {
+        ...devices['iPhone 13 Pro']
+      }
     }
   ]
 

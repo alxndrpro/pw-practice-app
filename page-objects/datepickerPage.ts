@@ -8,7 +8,6 @@ export class DatepickerPage extends HelperBase {
 
   }
 
-
   async selectCommonDatePickerDateFromToday(numberOfDaysFromToday: number) {
 
     const calendarInputField = this.page.getByPlaceholder('Form Picker')
@@ -32,6 +31,7 @@ export class DatepickerPage extends HelperBase {
   private async selectDateInTheCalendar(numberOfDaysFromToday: number) {
     let date = new Date()
     date.setDate(date.getDate() + numberOfDaysFromToday)
+
 
     const expectedDate = date.getDate().toString()
     const expectedMonthShort = date.toLocaleString('En-US', {month: 'short'})

@@ -33,7 +33,7 @@ test('User facing locators', async({page}) => {
 })
 
 test('Locating child elements', async({page}) => {
-    await page.locator('nb-card nb-radio :text-is("Option 1")').click()
+    await page.locator('nb-card nb-radio', {hasText: "Option 1"}).click()
     await page.locator('nb-card').locator('nb-radio').locator(':text-is("Option 2")').click()
 
     await page.locator('nb-card').getByRole('button', {name: "Sign in"}).first().click()
@@ -49,10 +49,10 @@ test('Locating parent elements', async({page}) => {
     await page.locator('nb-card').filter({has: page.locator('nb-checkbox')}).filter({hasText: "Sign in"})
     .getByRole('textbox', {name: "Email"}).click()
 
-    await page.locator(':text-is("Using the Grid")').locator('..').getByRole('textbox', {name: "Email"}).click()
+  await page.locator(':scope', { hasText: 'Using the Grid' }).locator('..').getByRole('textbox', { name: 'Email' }).click();
 
 
-  })
+})
 
 test('Reusing the locators', async ({page}) => {
     const basicForm = page.locator('nb-card').filter({hasText: "Basic form"})
@@ -78,7 +78,7 @@ test('Extracting values', async ({page}) => {
     expect(allRadioButtonsLabels).toContain("Option 1")
 
     // Input value
-    const emailField = basicForm.getByRole('textBox', {name: 'Email'})
+    const emailField = basicForm.getByRole('textbox', {name: 'Email'})
     await emailField.fill('test@test.com')
     const emailValue = await emailField.inputValue()
     expect(emailValue).toEqual('test@test.com')
@@ -102,7 +102,7 @@ test('Assertions', async({page}) => {
     expect(basicFormButton).toHaveText('Submit')
 
     // Soft assertion
-    await expect.soft(basicFormButton).toHaveText('Submit5')
+    await expect.soft(basicFormButton).toHaveText('Submit')
     await basicFormButton.click()
 
   })

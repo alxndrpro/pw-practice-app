@@ -1,4 +1,5 @@
 import {test, expect} from '@playwright/test'
+import {createLogErrorHandler} from "@angular/compiler-cli/ngcc/src/execution/tasks/completion";
 
 test('Drag and drop with iFrame', async ({page}) => {
 
@@ -14,6 +15,6 @@ test('Drag and drop with iFrame', async ({page}) => {
   await frame.locator('#trash').hover()
   await page.mouse.up()
 
-  await expect.(frame.locator('#trash li h5')).toHaveValue(["High Tatras 2", "High Tatras 4"])
+  await expect(frame.locator('#trash li h5')).toHaveText(["High Tatras 2", "High Tatras 4"]);
 
 })

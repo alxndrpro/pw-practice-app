@@ -6,8 +6,16 @@ require('dotenv').config();
 export default defineConfig<TestOptions>({
   retries: 1,
   reporter: [
-    ['list'],
-    ['allure-playwright']
+    // ['list'],
+    // ['allure-playwright']
+    process.env.CI ? ["dot"] : ["list"],
+    [
+      "@argos-ci/playwright/reporter",
+      {
+        uploadToArgos: !!process.env.CI,
+      },
+    ],
+    ['html']
   ],
 
   use: {
@@ -16,6 +24,7 @@ export default defineConfig<TestOptions>({
       : process.env.DEV === 'tst2' ? 'http://localhost:4201/'
         : 'http://localhost:4200/',
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
     actionTimeout: 20000,
     navigationTimeout: 25000,
     video: {
